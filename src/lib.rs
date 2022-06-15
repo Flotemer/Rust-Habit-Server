@@ -2,31 +2,29 @@
 extern crate diesel;
 extern crate dotenv;
 
-use diesel::prelude::*;
 use diesel::pg::PgConnection;
+use diesel::prelude::*;
 use dotenv::dotenv;
 use std::env;
 
-pub mod schema;
 pub mod models;
+pub mod schema;
 
 pub fn establish_connection() -> PgConnection {
     dotenv().ok();
 
-    let database_url = env::var("DATABASE_URL")
-        .expect("DATABASE_URL must be set");
-    PgConnection::establish(&database_url)
-        .expect(&format!("Error connecting to {}", database_url))
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    PgConnection::establish(&database_url).expect(&format!("Error connecting to {}", database_url))
 }
 
-use self::models::{User, NewUser};
+use self::models::{NewUser, User};
 
 pub fn create_user<'a>(conn: &PgConnection, first_name: &'a str, last_name: &'a str) -> User {
     use schema::users;
 
     let new_user = NewUser {
-        first_name: first_name,
-        last_name: last_name,
+        first_name: first_name.to_string(),
+        last_name: last_name.to_string(),
     };
 
     diesel::insert_into(users::table)
@@ -34,3 +32,5 @@ pub fn create_user<'a>(conn: &PgConnection, first_name: &'a str, last_name: &'a 
         .get_result(conn)
         .expect("Error saving new user")
 }
+
+// Insert create_habits function here

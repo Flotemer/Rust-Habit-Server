@@ -1,5 +1,9 @@
 # For documentation on how to configure this file,
 # see diesel.rs/guides/configuring-diesel-cli
 
+##Harry's Notes
+##run the diesel print-schema to print the code that must be inserted into the 
+##schema file...I think this should auto generate but not sure why it doesn't
+
 [print_schema]
 file = "src/schema.rs"
